@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Readiness Check — Bootcamp Ismuhuyahya</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap');
+
+  :root{
+    --bg:#0B0B0D;
+    --panel:#141417;
+    --panel-2:#1A1A1F;
+    --line:#26262C;
+    --line-soft:#1E1E23;
+    --ink:#F2F2F0;
+    --muted:#8B8B92;
+    --dim:#54545B;
+    --accent:#C8A44D;
+    --accent-soft:rgba(200,164,77,.14);
+    --ok:#79B58A;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+    min-height:100vh;
+    -webkit-font-smoothing:antialiased;
+    line-height:1.5;
+  }
+  .stage{ max-width:560px; margin:0 auto; padding:48px 22px 80px; }
+
+  .eyebrow{
+    font-family:'Space Grotesk',sans-serif;
+    font-size:12px; letter-spacing:.18em; text-transform:uppercase;
+    color:var(--accent); font-weight:600; margin-bottom:16px;
+  }
+  h1{
+    font-family:'Space Grotesk',sans-serif;
+    font-weight:600; font-size:clamp(26px,5.5vw,36px);
+    line-height:1.12; margin:0 0 14px; letter-spacing:-.01em;
+  }
+  .lede{ color:var(--muted); font-size:15px; max-width:46ch; margin:0 0 36px; }
+
+  .card{ background:var(--panel); border:1px solid var(--line); border-radius:8px; padding:28px; }
+
+  label{ display:block; font-size:13.5px; font-weight:600; margin-bottom:8px; }
+  .req::after{ content:" *"; color:var(--accent); }
+  input,select{
+    width:100%; font-family:'Inter',sans-serif; font-size:15px;
+    padding:11px 13px; border:1px solid var(--line); border-radius:6px;
+    background:var(--panel-2); color:var(--ink); outline:none;
+    transition:border-color .15s;
+  }
+  input:focus,select:focus{ border-color:var(--accent); }
+  select option{ background:#141417; }
+  .field{ margin-bottom:22px; }
+  .field:last-of-type{ margin-bottom:26px; }
+  .row2{ display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+  @media(max-width:460px){ .row2{ grid-template-columns:1fr; } }
+
+  .btn{
+    width:100%; padding:14px; border:none; border-radius:6px;
+    font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:15px;
+    background:var(--ink); color:#0B0B0D; cursor:pointer; transition:opacity .15s;
+  }
+  .btn:hover{ opacity:.88; }
+  .btn:disabled{ opacity:.4; cursor:not-allowed; }
+  .btn-ghost{
+    background:transparent; color:var(--muted); border:1px solid var(--line);
+  }
+  .btn-ghost:hover{ color:var(--ink); border-color:var(--dim); opacity:1; }
+  .btn-accent{ background:var(--accent); color:#161200; }
+
+  .err{ color:#D98A7A; font-size:13px; margin-top:12px; display:none; }
+
+  /* progress */
+  .prog-wrap{ margin-bottom:30px; }
+  .prog-top{ display:flex; justify-content:space-between; font-size:12px; color:var(--muted); margin-bottom:8px; font-family:'Space Grotesk',sans-serif; letter-spacing:.02em;}
+  .prog-bar{ height:3px; background:var(--line-soft); border-radius:2px; overflow:hidden; }
+  .prog-fill{ height:100%; background:var(--accent); width:0%; transition:width .35s cubic-bezier(.4,0,.2,1); }
+
+  /* question */
+  .qdim{ font-family:'Space Grotesk',sans-serif; font-size:12px; letter-spacing:.16em; text-transform:uppercase; color:var(--dim); margin-bottom:14px; font-weight:600;}
+  .qtext{ font-size:18px; font-weight:500; line-height:1.35; margin-bottom:24px; }
+  .opts{ display:flex; flex-direction:column; gap:10px; }
+  .opt{
+    text-align:left; width:100%; padding:14px 16px; border:1px solid var(--line);
+    border-radius:7px; background:var(--panel-2); color:var(--ink);
+    font-family:'Inter',sans-serif; font-size:14.5px; cursor:pointer;
+    transition:border-color .12s, background .12s; display:flex; gap:12px; align-items:center;
+  }
+  .opt:hover{ border-color:var(--dim); }
+  .opt.sel{ border-color:var(--accent); background:var(--accent-soft); }
+  .opt .dot{
+    width:16px; height:16px; border-radius:50%; border:1.5px solid var(--dim);
+    flex-shrink:0; transition:.12s; position:relative;
+  }
+  .opt.sel .dot{ border-color:var(--accent); }
+  .opt.sel .dot::after{ content:""; position:absolute; inset:3px; border-radius:50%; background:var(--accent); }
+  .nav{ display:flex; gap:12px; margin-top:28px; }
+  .nav .btn{ width:auto; flex:1; }
+
+  /* result */
+  .result-head{ text-align:center; margin-bottom:8px; }
+  .score-big{ font-family:'Space Grotesk',sans-serif; font-size:64px; font-weight:600; line-height:1; letter-spacing:-.02em;}
+  .score-band{ font-family:'Space Grotesk',sans-serif; font-size:13px; letter-spacing:.14em; text-transform:uppercase; color:var(--accent); margin-top:8px; }
+  .radar-box{ margin:8px auto 24px; display:block; }
+  .dim-list{ display:grid; gap:2px; margin:24px 0; }
+  .dim-row{ display:flex; align-items:center; gap:14px; padding:11px 0; border-bottom:1px solid var(--line-soft); }
+  .dim-row:last-child{ border-bottom:none; }
+  .dim-name{ font-size:14px; width:92px; flex-shrink:0; font-weight:500;}
+  .dim-track{ flex:1; height:6px; background:var(--line-soft); border-radius:3px; overflow:hidden; }
+  .dim-meter{ height:100%; background:var(--ink); border-radius:3px; width:0; transition:width .8s cubic-bezier(.4,0,.2,1); }
+  .dim-val{ font-family:'Space Grotesk',sans-serif; font-size:13px; color:var(--muted); width:34px; text-align:right; }
+
+  .promo{
+    margin-top:8px; border:1px solid var(--accent); border-radius:8px;
+    padding:24px; background:linear-gradient(180deg, var(--accent-soft), transparent);
+  }
+  .promo h3{ font-family:'Space Grotesk',sans-serif; font-size:19px; margin:0 0 10px; }
+  .promo p{ color:var(--muted); font-size:14px; margin:0 0 18px; }
+
+  .save-note{ text-align:center; font-size:12.5px; color:var(--dim); margin-top:20px; min-height:16px; }
+  .save-note.ok{ color:var(--ok); }
+
+  .admin-link{ text-align:center; margin-top:30px; }
+  .admin-link a{ color:var(--dim); font-size:12px; text-decoration:underline; cursor:pointer; }
+
+  .hidden{ display:none !important; }
+  @media (prefers-reduced-motion: reduce){
+    *{ transition:none !important; animation:none !important; }
+  }
+</style>
+</head>
+<body>
+<div class="stage">
+
+  <!-- ===== STEP 0: INTRO + REGISTRASI ===== -->
+  <section id="intro">
+    <div class="eyebrow">Bootcamp AI &amp; Otomasi · 24–25 Agustus · Pontianak</div>
+    <h1>Cek kesiapan AI kamu sebelum bootcamp</h1>
+    <p class="lede">12 pertanyaan singkat, sekitar 4 menit. Hasilnya membantu panitia menyesuaikan materi dengan level kamu — dan kamu langsung tahu di bagian mana kesiapanmu perlu diperkuat.</p>
+
+    <div class="card">
+      <div class="field">
+        <label class="req">Nama lengkap</label>
+        <input type="text" id="nama" autocomplete="name">
+      </div>
+      <div class="row2">
+        <div class="field">
+          <label class="req">Departemen</label>
+          <select id="departemen">
+            <option value="" disabled selected>Pilih…</option>
+            <option>Baitulmaal Ismuhuyahya Digital</option>
+            <option>Rumah Sehat Ismuhuyahya</option>
+            <option>Operasional Masjid</option>
+            <option>Homey Studio</option>
+            <option>PT. Amanina Berkah Mulia</option>
+            <option>Finance</option>
+            <option>Baitul Dakwah</option>
+            <option>Sidaq Apps</option>
+            <option>Agency Media Center</option>
+            <option>ScaleUpRezeki</option>
+            <option>Lainnya</option>
+          </select>
+        </div>
+        <div class="field">
+          <label class="req">No. WhatsApp</label>
+          <input type="tel" id="wa" placeholder="08xx…" autocomplete="tel">
+        </div>
+      </div>
+      <div class="field">
+        <label>Email <span style="color:var(--dim);font-weight:400">(opsional)</span></label>
+        <input type="email" id="email" autocomplete="email">
+      </div>
+      <button class="btn" id="startBtn">Mulai cek kesiapan →</button>
+      <div class="err" id="introErr">Nama, departemen, dan nomor WhatsApp wajib diisi.</div>
+    </div>
+    <div class="admin-link"><a id="adminToggle">Panitia? Lihat rekap</a></div>
+  </section>
+
+  <!-- ===== STEP 1: ASSESSMENT ===== -->
+  <section id="quiz" class="hidden">
+    <div class="prog-wrap">
+      <div class="prog-top"><span id="progLabel">01 / 12</span><span id="progPct">8%</span></div>
+      <div class="prog-bar"><div class="prog-fill" id="progFill"></div></div>
+    </div>
+    <div class="qdim" id="qDim"></div>
+    <div class="qtext" id="qText"></div>
+    <div class="opts" id="qOpts"></div>
+    <div class="nav">
+      <button class="btn btn-ghost" id="backBtn">← Kembali</button>
+      <button class="btn" id="nextBtn" disabled>Lanjut →</button>
+    </div>
+  </section>
+
+  <!-- ===== STEP 2: RESULT ===== -->
+  <section id="result" class="hidden">
+    <div class="result-head">
+      <div class="eyebrow" style="margin-bottom:8px;">Skor kesiapan AI kamu</div>
+      <div class="score-big" id="scoreBig">0</div>
+      <div class="score-band" id="scoreBand"></div>
+    </div>
+    <svg id="radar" class="radar-box" width="340" height="340" viewBox="0 0 340 340" aria-label="Radar kesiapan AI"></svg>
+    <div class="dim-list" id="dimList"></div>
+    <div id="promoSlot"></div>
+    <div class="save-note" id="saveNote"></div>
+  </section>
+
+  <!-- ===== ADMIN ===== -->
+  <section id="admin" class="hidden">
+    <div class="eyebrow">Panitia</div>
+    <h1 style="font-size:24px;">Rekap respons</h1>
+    <p class="lede" style="margin-bottom:20px;">Catatan: rekap ini hanya tersimpan di perangkat/hosting tempat form dijalankan. Notifikasi tiap submission dikirim ke email panitia.</p>
+    <div id="adminBody" class="card">Belum ada data di sesi ini.</div>
+  </section>
+
+</div>
+
+<script>
+/* ============================================================
+   KONFIGURASI — silakan sesuaikan
+   ============================================================ */
+const CLASS_URL   = "https://withmiautomation.com";     // TODO: ganti ke URL kelas AI kalian
+const CLASS_WA    = "https://wa.me/62XXXXXXXXXXX";        // TODO: ganti ke nomor WA kelas AI
+const PROMO_THRESHOLD = 50;   // skor total di bawah ini -> tampil promo kelas AI
+
+/* ============================================================
+   ASSESSMENT — 6 dimensi x 2 pertanyaan, skor tiap opsi 0..3
+   Skor dimensi = (jumlah / 6) * 100
+   ============================================================ */
+const DIMENSIONS = ["Fondasi","Praktik","Evaluasi","Etika","Strategi","Building"];
+
+const QUESTIONS = [
+  { dim:"Fondasi", q:"Seberapa nyaman kamu menjelaskan apa itu AI generatif (seperti ChatGPT) ke rekan kerja?",
+    opts:[["Belum paham sama sekali",0],["Tahu sedikit, tapi bingung menjelaskannya",1],["Bisa menjelaskan garis besarnya",2],["Paham, termasuk keterbatasannya",3]] },
+  { dim:"Fondasi", q:"Kalau ditanya bedanya \"AI\", \"otomasi biasa\", dan \"chatbot\", kamu…",
+    opts:[["Tidak tahu bedanya",0],["Terasa mirip-mirip saja",1],["Tahu bedanya secara umum",2],["Paham kapan pakai masing-masing",3]] },
+
+  { dim:"Praktik", q:"Seberapa sering kamu memakai AI untuk pekerjaan sehari-hari?",
+    opts:[["Belum pernah",0],["Sesekali, kalau ingat",1],["Beberapa kali seminggu",2],["Hampir tiap hari, sudah kebiasaan",3]] },
+  { dim:"Praktik", q:"Soal menulis prompt / instruksi ke AI, kamu…",
+    opts:[["Belum pernah coba",0],["Asal ketik, sering meleset",1],["Mulai bisa bikin prompt yang jelas",2],["Punya template andalan yang dipakai berulang",3]] },
+
+  { dim:"Evaluasi", q:"Saat AI memberi jawaban, seberapa yakin kamu bisa tahu kalau jawabannya salah / mengarang?",
+    opts:[["Saya percaya saja apa kata AI",0],["Kadang ragu tapi tak tahu cara cek",1],["Biasanya bisa merasa ada yang janggal",2],["Rutin verifikasi & tahu di mana AI sering keliru",3]] },
+  { dim:"Evaluasi", q:"Cara kamu memastikan hasil AI layak dipakai…",
+    opts:[["Langsung pakai apa adanya",0],["Baca sekilas saja",1],["Cek bagian penting secara manual",2],["Punya proses cek yang konsisten",3]] },
+
+  { dim:"Etika", q:"Soal memasukkan data sensitif (donatur, pasien, keuangan) ke tool AI, kamu…",
+    opts:[["Belum kepikiran risikonya",0],["Tahu ada risiko tapi tetap lakukan",1],["Hati-hati, hindari data sangat sensitif",2],["Punya batas jelas apa yang boleh/tidak",3]] },
+  { dim:"Etika", q:"Soal transparansi — memberi tahu bahwa suatu hasil dibantu AI…",
+    opts:[["Tak pernah memikirkannya",0],["Rasanya tidak penting",1],["Kadang mempertimbangkannya",2],["Penting, dan saya menerapkannya",3]] },
+
+  { dim:"Strategi", q:"Kalau diminta menunjuk 1 proses di departemenmu yang paling layak diotomasi, kamu…",
+    opts:[["Tak tahu mulai dari mana",0],["Punya firasat tapi belum yakin",1],["Bisa menunjuk beberapa kandidat",2],["Bisa menunjuk sekaligus alasannya",3]] },
+  { dim:"Strategi", q:"Soal memperkirakan dampak sebuah otomasi (waktu hemat, kapasitas naik)…",
+    opts:[["Belum terpikir",0],["Sekadar \"kayaknya membantu\"",1],["Bisa perkirakan kasar",2],["Bisa perkirakan dengan angka/logika jelas",3]] },
+
+  { dim:"Building", q:"Pengalamanmu membuat automation (n8n, Zapier, Make, dll)…",
+    opts:[["Belum pernah",0],["Pernah lihat orang lain buat",1],["Pernah bikin yang sederhana",2],["Bisa bikin workflow beberapa langkah sendiri",3]] },
+  { dim:"Building", q:"Soal menyambungkan beberapa tools jadi satu alur (mis. form → database → WA)…",
+    opts:[["Tidak tahu caranya",0],["Paham konsep, belum praktik",1],["Pernah menyambungkan 2 tools",2],["Nyaman merangkai beberapa tools",3]] },
+];
+
+/* ============================================================ */
+const state = { reg:{}, answers:new Array(QUESTIONS.length).fill(null), idx:0 };
+const $ = id => document.getElementById(id);
+const show = id => $(id).classList.remove('hidden');
+const hide = id => $(id).classList.add('hidden');
+
+/* ---- STEP 0 ---- */
+$('startBtn').addEventListener('click', () => {
+  const nama = $('nama').value.trim();
+  const dep  = $('departemen').value;
+  const wa   = $('wa').value.trim();
+  if(!nama || !dep || !wa){ $('introErr').style.display='block'; return; }
+  state.reg = { nama, departemen:dep, wa, email:$('email').value.trim() };
+  hide('intro'); show('quiz'); renderQuestion();
+});
+
+/* ---- STEP 1: quiz ---- */
+function renderQuestion(){
+  const i = state.idx, item = QUESTIONS[i];
+  $('qDim').textContent = item.dim;
+  $('qText').textContent = item.q;
+  const wrap = $('qOpts'); wrap.innerHTML = '';
+  item.opts.forEach(([label,val],k) => {
+    const b = document.createElement('button');
+    b.className = 'opt' + (state.answers[i]===val ? ' sel' : '');
+    b.innerHTML = `<span class="dot"></span><span>${label}</span>`;
+    b.addEventListener('click', () => {
+      state.answers[i] = val;
+      [...wrap.children].forEach(c=>c.classList.remove('sel'));
+      b.classList.add('sel');
+      $('nextBtn').disabled = false;
+    });
+    wrap.appendChild(b);
+  });
+  const n = QUESTIONS.length, pct = Math.round(((i+1)/n)*100);
+  $('progLabel').textContent = String(i+1).padStart(2,'0')+' / '+n;
+  $('progPct').textContent = pct+'%';
+  $('progFill').style.width = pct+'%';
+  $('nextBtn').disabled = state.answers[i]===null;
+  $('nextBtn').textContent = (i===n-1) ? 'Lihat hasil →' : 'Lanjut →';
+  $('backBtn').style.visibility = (i===0) ? 'hidden' : 'visible';
+}
+$('nextBtn').addEventListener('click', () => {
+  if(state.answers[state.idx]===null) return;
+  if(state.idx < QUESTIONS.length-1){ state.idx++; renderQuestion(); }
+  else finish();
+});
+$('backBtn').addEventListener('click', () => {
+  if(state.idx>0){ state.idx--; renderQuestion(); }
+});
+
+/* ---- SCORING ---- */
+function computeScores(){
+  const per = {}; DIMENSIONS.forEach(d=>per[d]=0);
+  QUESTIONS.forEach((item,i)=>{ per[item.dim] += (state.answers[i]||0); });
+  // tiap dimensi max 6 -> normalisasi 0..100
+  const dimScores = {};
+  DIMENSIONS.forEach(d => dimScores[d] = Math.round((per[d]/6)*100));
+  const overall = Math.round(DIMENSIONS.reduce((s,d)=>s+dimScores[d],0)/DIMENSIONS.length);
+  return { dimScores, overall };
+}
+function band(score){
+  if(score>=75) return "Siap Membangun";
+  if(score>=50) return "Berkembang";
+  if(score>=30) return "Pemula";
+  return "Baru Mulai";
+}
+
+/* ---- STEP 2: result ---- */
+function finish(){
+  hide('quiz'); show('result');
+  const { dimScores, overall } = computeScores();
+  state.result = { dimScores, overall };
+
+  // angka besar animasi
+  animateNumber($('scoreBig'), overall);
+  $('scoreBand').textContent = band(overall);
+
+  drawRadar(dimScores);
+
+  // daftar dimensi
+  const list = $('dimList'); list.innerHTML='';
+  DIMENSIONS.forEach(d=>{
+    const row = document.createElement('div'); row.className='dim-row';
+    row.innerHTML = `<span class="dim-name">${d}</span>
+      <span class="dim-track"><span class="dim-meter"></span></span>
+      <span class="dim-val">${dimScores[d]}</span>`;
+    list.appendChild(row);
+    requestAnimationFrame(()=>{ setTimeout(()=>{ row.querySelector('.dim-meter').style.width = dimScores[d]+'%'; },60); });
+  });
+
+  // promo
+  if(overall < PROMO_THRESHOLD){
+    $('promoSlot').innerHTML = `
+      <div class="promo">
+        <h3>Fondasi kamu masih bisa dipercepat</h3>
+        <p>Skormu menunjukkan beberapa dasar AI belum kuat — wajar, dan bisa dikejar cepat. Kelas AI WithMi dirancang persis untuk melompati tahap "meraba-raba" ini sebelum kamu masuk ke automation.</p>
+        <a class="btn btn-accent" href="${CLASS_URL}" target="_blank" rel="noopener" style="display:block;text-align:center;text-decoration:none;margin-bottom:10px;">Lihat kelas AI WithMi</a>
+        <a class="btn btn-ghost" href="${CLASS_WA}" target="_blank" rel="noopener" style="display:block;text-align:center;text-decoration:none;">Tanya lewat WhatsApp</a>
+      </div>`;
+  } else {
+    $('promoSlot').innerHTML = `
+      <div class="promo" style="border-color:var(--line);background:none;">
+        <h3>Fondasi kamu sudah kuat</h3>
+        <p>Kamu siap fokus ke bagian membangun di Hari 2. Kalau mau memperdalam lagi setelah bootcamp, kelas AI WithMi bisa jadi lanjutan.</p>
+        <a class="btn btn-ghost" href="${CLASS_URL}" target="_blank" rel="noopener" style="display:block;text-align:center;text-decoration:none;">Lihat kelas AI WithMi</a>
+      </div>`;
+  }
+
+  saveLocal();
+  sendToServer();
+}
+
+function animateNumber(el, target){
+  let cur=0; const step=Math.max(1,Math.round(target/28));
+  const t=setInterval(()=>{ cur+=step; if(cur>=target){cur=target;clearInterval(t);} el.textContent=cur; },24);
+}
+
+/* ---- RADAR (SVG hexagon, gaya monokrom gelap) ---- */
+function drawRadar(dimScores){
+  const svg=$('radar'), cx=170, cy=170, R=118;
+  const NS='http://www.w3.org/2000/svg';
+  svg.innerHTML='';
+  const angles = DIMENSIONS.map((_,i)=> (-90 + i*60) * Math.PI/180);
+  const pt=(ang,r)=>[cx+r*Math.cos(ang), cy+r*Math.sin(ang)];
+
+  // grid rings
+  [0.25,0.5,0.75,1].forEach(f=>{
+    const pts=angles.map(a=>pt(a,R*f).join(',')).join(' ');
+    const poly=document.createElementNS(NS,'polygon');
+    poly.setAttribute('points',pts);
+    poly.setAttribute('fill','none');
+    poly.setAttribute('stroke','#26262C');
+    poly.setAttribute('stroke-width', f===1?'1':'0.7');
+    svg.appendChild(poly);
+  });
+  // axes + labels
+  angles.forEach((a,i)=>{
+    const [x,y]=pt(a,R);
+    const line=document.createElementNS(NS,'line');
+    line.setAttribute('x1',cx);line.setAttribute('y1',cy);
+    line.setAttribute('x2',x);line.setAttribute('y2',y);
+    line.setAttribute('stroke','#1E1E23');line.setAttribute('stroke-width','0.7');
+    svg.appendChild(line);
+    const [lx,ly]=pt(a,R+22);
+    const lbl=document.createElementNS(NS,'text');
+    lbl.setAttribute('x',lx);lbl.setAttribute('y',ly);
+    lbl.setAttribute('fill','#8B8B92');
+    lbl.setAttribute('font-size','11');
+    lbl.setAttribute('font-family','Space Grotesk, sans-serif');
+    lbl.setAttribute('text-anchor', Math.abs(Math.cos(a))<0.3 ? 'middle' : (Math.cos(a)>0?'start':'end'));
+    lbl.setAttribute('dominant-baseline','middle');
+    lbl.textContent=DIMENSIONS[i];
+    svg.appendChild(lbl);
+  });
+  // data polygon
+  const dataPts = angles.map((a,i)=> pt(a, R*(dimScores[DIMENSIONS[i]]/100)) );
+  const poly=document.createElementNS(NS,'polygon');
+  poly.setAttribute('points', dataPts.map(p=>p.join(',')).join(' '));
+  poly.setAttribute('fill','rgba(242,242,240,0.10)');
+  poly.setAttribute('stroke','#F2F2F0');
+  poly.setAttribute('stroke-width','1.6');
+  poly.setAttribute('stroke-linejoin','round');
+  svg.appendChild(poly);
+  // draw-in animation
+  const perim = perimeter(dataPts);
+  poly.style.strokeDasharray = perim; poly.style.strokeDashoffset = perim;
+  poly.style.transition='stroke-dashoffset 1s ease'; poly.style.fillOpacity='0';
+  requestAnimationFrame(()=>setTimeout(()=>{ poly.style.strokeDashoffset='0'; poly.style.transition+=' , fill-opacity .8s ease .5s'; poly.style.fillOpacity='1'; },80));
+  // dots
+  dataPts.forEach(([x,y])=>{
+    const c=document.createElementNS(NS,'circle');
+    c.setAttribute('cx',x);c.setAttribute('cy',y);c.setAttribute('r','3');
+    c.setAttribute('fill','#F2F2F0');
+    svg.appendChild(c);
+  });
+}
+function perimeter(pts){ let s=0; for(let i=0;i<pts.length;i++){const a=pts[i],b=pts[(i+1)%pts.length];s+=Math.hypot(a[0]-b[0],a[1]-b[1]);} return Math.round(s); }
+
+/* ---- PENYIMPANAN & PENGIRIMAN ---- */
+function payload(){
+  return {
+    ...state.reg,
+    answers: QUESTIONS.map((q,i)=>({ dim:q.dim, q:q.q, score:state.answers[i] })),
+    dimScores: state.result.dimScores,
+    overall: state.result.overall,
+    promoShown: state.result.overall < PROMO_THRESHOLD,
+    submittedAt: new Date().toISOString()
+  };
+}
+function saveLocal(){
+  try{
+    const arr = JSON.parse(sessionStorage.getItem('_reg')||'[]');
+    arr.push(payload()); sessionStorage.setItem('_reg', JSON.stringify(arr));
+  }catch(e){}
+}
+async function sendToServer(){
+  const note=$('saveNote'); note.textContent='Menyimpan jawaban…';
+  try{
+    const r = await fetch('/api/submit', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify(payload())
+    });
+    if(!r.ok) throw new Error('bad status '+r.status);
+    note.textContent='✓ Jawaban terkirim ke panitia'; note.classList.add('ok');
+  }catch(e){
+    // Di mode preview (tanpa backend) ini wajar gagal — hasil tetap tampil.
+    note.textContent='Hasil tampil di layar. (Pengiriman email aktif setelah di-deploy ke Vercel.)';
+  }
+}
+
+/* ---- ADMIN (rekap sesi ini) ---- */
+$('adminToggle').addEventListener('click', ()=>{
+  hide('intro'); show('admin');
+  const arr = (()=>{ try{return JSON.parse(sessionStorage.getItem('_reg')||'[]');}catch(e){return [];} })();
+  const body=$('adminBody');
+  if(!arr.length){ body.textContent='Belum ada data di sesi ini.'; return; }
+  body.innerHTML = arr.map(e=>`
+    <div style="padding:12px 0;border-bottom:1px solid var(--line-soft)">
+      <strong>${e.nama}</strong> · ${e.departemen}<br>
+      <span style="color:var(--muted);font-size:13px">${e.wa} · skor ${e.overall} (${band(e.overall)})</span>
+    </div>`).join('');
+});
+</script>
+</body>
+</html>

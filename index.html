@@ -3,22 +3,24 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AI Readiness Check — Bootcamp Ismuhuyahya</title>
+<meta name="theme-color" content="#070809">
+<title>AI Readiness Check — WithMi × Bootcamp Ismuhuyahya</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&family=Inter:wght@400;500;600;700&display=swap');
 
   :root{
-    --bg:#0B0B0D;
-    --panel:#141417;
-    --panel-2:#1A1A1F;
-    --line:#26262C;
-    --line-soft:#1E1E23;
-    --ink:#F2F2F0;
-    --muted:#8B8B92;
-    --dim:#54545B;
-    --accent:#C8A44D;
-    --accent-soft:rgba(200,164,77,.14);
-    --ok:#79B58A;
+    --bg:#070809;
+    --panel:#0F1112;
+    --panel-2:#15181A;
+    --line:#22262A;
+    --line-soft:#191C1E;
+    --ink:#F5F3F0;
+    --muted:#93979B;
+    --dim:#565B60;
+    --red:#E8203C;
+    --red-soft:rgba(232,32,60,.12);
+    --red-glow:rgba(232,32,60,.22);
+    --ok:#6FBF8A;
   }
   *{box-sizing:border-box;}
   html,body{margin:0;padding:0;}
@@ -30,109 +32,124 @@
     -webkit-font-smoothing:antialiased;
     line-height:1.5;
   }
-  .stage{ max-width:560px; margin:0 auto; padding:48px 22px 80px; }
+  .stage{ max-width:580px; margin:0 auto; padding:52px 22px 88px; }
 
   .eyebrow{
-    font-family:'Space Grotesk',sans-serif;
-    font-size:12px; letter-spacing:.18em; text-transform:uppercase;
-    color:var(--accent); font-weight:600; margin-bottom:16px;
+    display:inline-flex; align-items:center; gap:9px;
+    font-size:12px; letter-spacing:.16em; text-transform:uppercase;
+    color:var(--red); font-weight:600; margin-bottom:20px;
   }
-  h1{
-    font-family:'Space Grotesk',sans-serif;
-    font-weight:600; font-size:clamp(26px,5.5vw,36px);
-    line-height:1.12; margin:0 0 14px; letter-spacing:-.01em;
-  }
-  .lede{ color:var(--muted); font-size:15px; max-width:46ch; margin:0 0 36px; }
+  .eyebrow::before{ content:""; width:7px; height:7px; border-radius:50%; background:var(--red); box-shadow:0 0 10px var(--red-glow); }
 
-  .card{ background:var(--panel); border:1px solid var(--line); border-radius:8px; padding:28px; }
+  h1{
+    font-family:'Playfair Display',serif;
+    font-weight:600; font-size:clamp(30px,6.5vw,46px);
+    line-height:1.08; margin:0 0 16px; letter-spacing:-.01em;
+  }
+  .lede{ color:var(--muted); font-size:15.5px; max-width:48ch; margin:0 0 38px; }
+
+  .card{
+    background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:30px;
+  }
 
   label{ display:block; font-size:13.5px; font-weight:600; margin-bottom:8px; }
-  .req::after{ content:" *"; color:var(--accent); }
+  .req::after{ content:" *"; color:var(--red); }
   input,select{
     width:100%; font-family:'Inter',sans-serif; font-size:15px;
-    padding:11px 13px; border:1px solid var(--line); border-radius:6px;
+    padding:12px 14px; border:1px solid var(--line); border-radius:10px;
     background:var(--panel-2); color:var(--ink); outline:none;
-    transition:border-color .15s;
+    transition:border-color .15s, box-shadow .15s;
   }
-  input:focus,select:focus{ border-color:var(--accent); }
-  select option{ background:#141417; }
+  input:focus,select:focus{ border-color:var(--red); box-shadow:0 0 0 3px var(--red-soft); }
+  select option{ background:#0F1112; }
   .field{ margin-bottom:22px; }
   .field:last-of-type{ margin-bottom:26px; }
   .row2{ display:grid; grid-template-columns:1fr 1fr; gap:14px; }
   @media(max-width:460px){ .row2{ grid-template-columns:1fr; } }
 
   .btn{
-    width:100%; padding:14px; border:none; border-radius:6px;
-    font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:15px;
-    background:var(--ink); color:#0B0B0D; cursor:pointer; transition:opacity .15s;
+    width:100%; padding:15px; border:none; border-radius:999px;
+    font-family:'Inter',sans-serif; font-weight:600; font-size:15px;
+    background:var(--red); color:#fff; cursor:pointer; transition:filter .15s, transform .05s;
+    letter-spacing:.01em;
   }
-  .btn:hover{ opacity:.88; }
-  .btn:disabled{ opacity:.4; cursor:not-allowed; }
+  .btn:hover{ filter:brightness(1.08); }
+  .btn:active{ transform:translateY(1px); }
+  .btn:disabled{ opacity:.4; cursor:not-allowed; filter:none; }
   .btn-ghost{
-    background:transparent; color:var(--muted); border:1px solid var(--line);
+    background:transparent; color:var(--ink); border:1px solid var(--line);
   }
-  .btn-ghost:hover{ color:var(--ink); border-color:var(--dim); opacity:1; }
-  .btn-accent{ background:var(--accent); color:#161200; }
+  .btn-ghost:hover{ border-color:var(--dim); filter:none; background:var(--panel-2); }
 
-  .err{ color:#D98A7A; font-size:13px; margin-top:12px; display:none; }
+  .err{ color:#F08A8A; font-size:13px; margin-top:12px; display:none; }
 
   /* progress */
-  .prog-wrap{ margin-bottom:30px; }
-  .prog-top{ display:flex; justify-content:space-between; font-size:12px; color:var(--muted); margin-bottom:8px; font-family:'Space Grotesk',sans-serif; letter-spacing:.02em;}
-  .prog-bar{ height:3px; background:var(--line-soft); border-radius:2px; overflow:hidden; }
-  .prog-fill{ height:100%; background:var(--accent); width:0%; transition:width .35s cubic-bezier(.4,0,.2,1); }
+  .prog-wrap{ margin-bottom:32px; }
+  .prog-top{ display:flex; justify-content:space-between; font-size:12px; color:var(--muted); margin-bottom:9px; letter-spacing:.03em;}
+  .prog-bar{ height:4px; background:var(--line-soft); border-radius:999px; overflow:hidden; }
+  .prog-fill{ height:100%; background:var(--red); width:0%; transition:width .35s cubic-bezier(.4,0,.2,1); box-shadow:0 0 12px var(--red-glow); }
 
   /* question */
-  .qdim{ font-family:'Space Grotesk',sans-serif; font-size:12px; letter-spacing:.16em; text-transform:uppercase; color:var(--dim); margin-bottom:14px; font-weight:600;}
-  .qtext{ font-size:18px; font-weight:500; line-height:1.35; margin-bottom:24px; }
+  .qdim{ display:inline-flex; align-items:center; gap:8px; font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:var(--red); margin-bottom:16px; font-weight:600;}
+  .qdim::before{ content:""; width:5px;height:5px;border-radius:50%;background:var(--red); }
+  .qtext{ font-family:'Playfair Display',serif; font-size:23px; font-weight:500; line-height:1.28; margin-bottom:26px; }
   .opts{ display:flex; flex-direction:column; gap:10px; }
   .opt{
-    text-align:left; width:100%; padding:14px 16px; border:1px solid var(--line);
-    border-radius:7px; background:var(--panel-2); color:var(--ink);
+    text-align:left; width:100%; padding:15px 16px; border:1px solid var(--line);
+    border-radius:11px; background:var(--panel-2); color:var(--ink);
     font-family:'Inter',sans-serif; font-size:14.5px; cursor:pointer;
-    transition:border-color .12s, background .12s; display:flex; gap:12px; align-items:center;
+    transition:border-color .12s, background .12s; display:flex; gap:13px; align-items:center;
   }
   .opt:hover{ border-color:var(--dim); }
-  .opt.sel{ border-color:var(--accent); background:var(--accent-soft); }
+  .opt.sel{ border-color:var(--red); background:var(--red-soft); }
   .opt .dot{
-    width:16px; height:16px; border-radius:50%; border:1.5px solid var(--dim);
+    width:17px; height:17px; border-radius:50%; border:1.5px solid var(--dim);
     flex-shrink:0; transition:.12s; position:relative;
   }
-  .opt.sel .dot{ border-color:var(--accent); }
-  .opt.sel .dot::after{ content:""; position:absolute; inset:3px; border-radius:50%; background:var(--accent); }
-  .nav{ display:flex; gap:12px; margin-top:28px; }
+  .opt.sel .dot{ border-color:var(--red); }
+  .opt.sel .dot::after{ content:""; position:absolute; inset:3px; border-radius:50%; background:var(--red); }
+  .nav{ display:flex; gap:12px; margin-top:30px; }
   .nav .btn{ width:auto; flex:1; }
 
   /* result */
-  .result-head{ text-align:center; margin-bottom:8px; }
-  .score-big{ font-family:'Space Grotesk',sans-serif; font-size:64px; font-weight:600; line-height:1; letter-spacing:-.02em;}
-  .score-band{ font-family:'Space Grotesk',sans-serif; font-size:13px; letter-spacing:.14em; text-transform:uppercase; color:var(--accent); margin-top:8px; }
-  .radar-box{ margin:8px auto 24px; display:block; }
-  .dim-list{ display:grid; gap:2px; margin:24px 0; }
-  .dim-row{ display:flex; align-items:center; gap:14px; padding:11px 0; border-bottom:1px solid var(--line-soft); }
+  .result-head{ text-align:center; margin-bottom:6px; }
+  .score-big{ font-family:'Playfair Display',serif; font-size:76px; font-weight:600; line-height:1; letter-spacing:-.02em;}
+  .score-band{ font-size:13px; letter-spacing:.14em; text-transform:uppercase; color:var(--red); margin-top:10px; font-weight:600;}
+  .radar-box{ margin:10px auto 26px; display:block; }
+  .dim-list{ display:grid; gap:2px; margin:26px 0; }
+  .dim-row{ display:flex; align-items:center; gap:14px; padding:12px 0; border-bottom:1px solid var(--line-soft); }
   .dim-row:last-child{ border-bottom:none; }
-  .dim-name{ font-size:14px; width:92px; flex-shrink:0; font-weight:500;}
-  .dim-track{ flex:1; height:6px; background:var(--line-soft); border-radius:3px; overflow:hidden; }
-  .dim-meter{ height:100%; background:var(--ink); border-radius:3px; width:0; transition:width .8s cubic-bezier(.4,0,.2,1); }
-  .dim-val{ font-family:'Space Grotesk',sans-serif; font-size:13px; color:var(--muted); width:34px; text-align:right; }
+  .dim-name{ font-size:14px; width:96px; flex-shrink:0; font-weight:500;}
+  .dim-track{ flex:1; height:7px; background:var(--line-soft); border-radius:999px; overflow:hidden; }
+  .dim-meter{ height:100%; background:var(--red); border-radius:999px; width:0; transition:width .8s cubic-bezier(.4,0,.2,1); }
+  .dim-val{ font-family:'Playfair Display',serif; font-size:15px; color:var(--ink); width:36px; text-align:right; }
 
   .promo{
-    margin-top:8px; border:1px solid var(--accent); border-radius:8px;
-    padding:24px; background:linear-gradient(180deg, var(--accent-soft), transparent);
+    margin-top:10px; border:1px solid var(--red); border-radius:14px;
+    padding:28px; background:radial-gradient(120% 100% at 50% 0%, var(--red-soft), transparent 70%);
   }
-  .promo h3{ font-family:'Space Grotesk',sans-serif; font-size:19px; margin:0 0 10px; }
-  .promo p{ color:var(--muted); font-size:14px; margin:0 0 18px; }
+  .promo h3{ font-family:'Playfair Display',serif; font-size:24px; font-weight:600; margin:0 0 12px; }
+  .promo p{ color:var(--muted); font-size:14.5px; margin:0 0 20px; }
+  .promo .btn{ text-decoration:none; display:block; text-align:center; }
+  .promo .btn + .btn{ margin-top:10px; }
 
-  .save-note{ text-align:center; font-size:12.5px; color:var(--dim); margin-top:20px; min-height:16px; }
+  .save-note{ text-align:center; font-size:12.5px; color:var(--dim); margin-top:22px; min-height:16px; }
   .save-note.ok{ color:var(--ok); }
 
-  .admin-link{ text-align:center; margin-top:30px; }
+  .brand{ display:flex; align-items:center; gap:10px; margin-bottom:34px; }
+  .brand .mark{
+    width:30px;height:30px;border-radius:8px;background:var(--red);
+    display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;
+    font-family:'Playfair Display',serif;font-size:17px;
+  }
+  .brand .name{ font-weight:600; font-size:15px; letter-spacing:.01em; }
+  .brand .name span{ color:var(--muted); font-weight:500; letter-spacing:.14em; font-size:11px; text-transform:uppercase; margin-left:2px;}
+
+  .admin-link{ text-align:center; margin-top:32px; }
   .admin-link a{ color:var(--dim); font-size:12px; text-decoration:underline; cursor:pointer; }
 
   .hidden{ display:none !important; }
-  @media (prefers-reduced-motion: reduce){
-    *{ transition:none !important; animation:none !important; }
-  }
+  @media (prefers-reduced-motion: reduce){ *{ transition:none !important; animation:none !important; } }
 </style>
 </head>
 <body>
@@ -140,9 +157,13 @@
 
   <!-- ===== STEP 0: INTRO + REGISTRASI ===== -->
   <section id="intro">
-    <div class="eyebrow">Bootcamp AI &amp; Otomasi · 24–25 Agustus · Pontianak</div>
-    <h1>Cek kesiapan AI kamu sebelum bootcamp</h1>
-    <p class="lede">12 pertanyaan singkat, sekitar 4 menit. Hasilnya membantu panitia menyesuaikan materi dengan level kamu — dan kamu langsung tahu di bagian mana kesiapanmu perlu diperkuat.</p>
+    <div class="brand">
+      <div class="mark">W</div>
+      <div class="name">WithMi <span>Academy</span></div>
+    </div>
+    <div class="eyebrow">Cek Kesiapan AI · Bootcamp Ismuhuyahya</div>
+    <h1>Seberapa siap kamu sebelum bootcamp?</h1>
+    <p class="lede">12 pertanyaan singkat, sekitar 4 menit. Hasilnya membantu panitia menyesuaikan materi dengan levelmu — dan kamu langsung tahu di bagian mana kesiapanmu perlu diperkuat.</p>
 
     <div class="card">
       <div class="field">
@@ -200,7 +221,7 @@
   <!-- ===== STEP 2: RESULT ===== -->
   <section id="result" class="hidden">
     <div class="result-head">
-      <div class="eyebrow" style="margin-bottom:8px;">Skor kesiapan AI kamu</div>
+      <div class="eyebrow" style="margin-bottom:10px;">Skor kesiapan AI kamu</div>
       <div class="score-big" id="scoreBig">0</div>
       <div class="score-band" id="scoreBand"></div>
     </div>
@@ -213,8 +234,8 @@
   <!-- ===== ADMIN ===== -->
   <section id="admin" class="hidden">
     <div class="eyebrow">Panitia</div>
-    <h1 style="font-size:24px;">Rekap respons</h1>
-    <p class="lede" style="margin-bottom:20px;">Catatan: rekap ini hanya tersimpan di perangkat/hosting tempat form dijalankan. Notifikasi tiap submission dikirim ke email panitia.</p>
+    <h1 style="font-size:30px;">Rekap respons</h1>
+    <p class="lede" style="margin-bottom:22px;">Catatan: rekap ini hanya menampilkan data sesi browser saat ini. Notifikasi tiap submission dikirim ke email panitia.</p>
     <div id="adminBody" class="card">Belum ada data di sesi ini.</div>
   </section>
 
@@ -222,10 +243,10 @@
 
 <script>
 /* ============================================================
-   KONFIGURASI — silakan sesuaikan
+   KONFIGURASI
    ============================================================ */
-const CLASS_URL   = "https://academy.withmiautomation.com/products";     // TODO: ganti ke URL kelas AI kalian
-const CLASS_WA    = "https://wa.me/628561633335";        // TODO: ganti ke nomor WA kelas AI
+const CLASS_URL   = "https://academy.withmiautomation.com/products";  // URL kelas AI
+const CLASS_WA    = "https://wa.me/628561633335";                     // WA kelas AI
 const PROMO_THRESHOLD = 50;   // skor total di bawah ini -> tampil promo kelas AI
 
 /* ============================================================
@@ -288,7 +309,7 @@ function renderQuestion(){
   $('qDim').textContent = item.dim;
   $('qText').textContent = item.q;
   const wrap = $('qOpts'); wrap.innerHTML = '';
-  item.opts.forEach(([label,val],k) => {
+  item.opts.forEach(([label,val]) => {
     const b = document.createElement('button');
     b.className = 'opt' + (state.answers[i]===val ? ' sel' : '');
     b.innerHTML = `<span class="dot"></span><span>${label}</span>`;
@@ -321,7 +342,6 @@ $('backBtn').addEventListener('click', () => {
 function computeScores(){
   const per = {}; DIMENSIONS.forEach(d=>per[d]=0);
   QUESTIONS.forEach((item,i)=>{ per[item.dim] += (state.answers[i]||0); });
-  // tiap dimensi max 6 -> normalisasi 0..100
   const dimScores = {};
   DIMENSIONS.forEach(d => dimScores[d] = Math.round((per[d]/6)*100));
   const overall = Math.round(DIMENSIONS.reduce((s,d)=>s+dimScores[d],0)/DIMENSIONS.length);
@@ -340,13 +360,11 @@ function finish(){
   const { dimScores, overall } = computeScores();
   state.result = { dimScores, overall };
 
-  // angka besar animasi
   animateNumber($('scoreBig'), overall);
   $('scoreBand').textContent = band(overall);
 
   drawRadar(dimScores);
 
-  // daftar dimensi
   const list = $('dimList'); list.innerHTML='';
   DIMENSIONS.forEach(d=>{
     const row = document.createElement('div'); row.className='dim-row';
@@ -357,21 +375,20 @@ function finish(){
     requestAnimationFrame(()=>{ setTimeout(()=>{ row.querySelector('.dim-meter').style.width = dimScores[d]+'%'; },60); });
   });
 
-  // promo
   if(overall < PROMO_THRESHOLD){
     $('promoSlot').innerHTML = `
       <div class="promo">
-        <h3>Fondasi kamu masih bisa dipercepat</h3>
-        <p>Skormu menunjukkan beberapa dasar AI belum kuat — wajar, dan bisa dikejar cepat. Kelas AI WithMi dirancang persis untuk melompati tahap "meraba-raba" ini sebelum kamu masuk ke automation.</p>
-        <a class="btn btn-accent" href="${CLASS_URL}" target="_blank" rel="noopener" style="display:block;text-align:center;text-decoration:none;margin-bottom:10px;">Lihat kelas AI WithMi</a>
-        <a class="btn btn-ghost" href="${CLASS_WA}" target="_blank" rel="noopener" style="display:block;text-align:center;text-decoration:none;">Tanya lewat WhatsApp</a>
+        <h3>Fondasi kamu bisa dipercepat</h3>
+        <p>Skormu menunjukkan beberapa dasar AI belum kuat — wajar, dan bisa dikejar cepat. Kelas AI WithMi Academy dirancang untuk melompati tahap "meraba-raba" ini sebelum kamu masuk ke automation.</p>
+        <a class="btn" href="${CLASS_URL}" target="_blank" rel="noopener">Lihat kelas WithMi Academy</a>
+        <a class="btn btn-ghost" href="${CLASS_WA}" target="_blank" rel="noopener">Tanya lewat WhatsApp</a>
       </div>`;
   } else {
     $('promoSlot').innerHTML = `
       <div class="promo" style="border-color:var(--line);background:none;">
         <h3>Fondasi kamu sudah kuat</h3>
-        <p>Kamu siap fokus ke bagian membangun di Hari 2. Kalau mau memperdalam lagi setelah bootcamp, kelas AI WithMi bisa jadi lanjutan.</p>
-        <a class="btn btn-ghost" href="${CLASS_URL}" target="_blank" rel="noopener" style="display:block;text-align:center;text-decoration:none;">Lihat kelas AI WithMi</a>
+        <p>Kamu siap fokus ke bagian membangun di Hari 2. Kalau mau memperdalam lagi setelah bootcamp, kelas WithMi Academy bisa jadi lanjutan.</p>
+        <a class="btn btn-ghost" href="${CLASS_URL}" target="_blank" rel="noopener">Lihat kelas WithMi Academy</a>
       </div>`;
   }
 
@@ -384,7 +401,7 @@ function animateNumber(el, target){
   const t=setInterval(()=>{ cur+=step; if(cur>=target){cur=target;clearInterval(t);} el.textContent=cur; },24);
 }
 
-/* ---- RADAR (SVG hexagon, gaya monokrom gelap) ---- */
+/* ---- RADAR (SVG hexagon, aksen merah WithMi) ---- */
 function drawRadar(dimScores){
   const svg=$('radar'), cx=170, cy=170, R=118;
   const NS='http://www.w3.org/2000/svg';
@@ -392,54 +409,50 @@ function drawRadar(dimScores){
   const angles = DIMENSIONS.map((_,i)=> (-90 + i*60) * Math.PI/180);
   const pt=(ang,r)=>[cx+r*Math.cos(ang), cy+r*Math.sin(ang)];
 
-  // grid rings
   [0.25,0.5,0.75,1].forEach(f=>{
     const pts=angles.map(a=>pt(a,R*f).join(',')).join(' ');
     const poly=document.createElementNS(NS,'polygon');
     poly.setAttribute('points',pts);
     poly.setAttribute('fill','none');
-    poly.setAttribute('stroke','#26262C');
+    poly.setAttribute('stroke','#22262A');
     poly.setAttribute('stroke-width', f===1?'1':'0.7');
     svg.appendChild(poly);
   });
-  // axes + labels
   angles.forEach((a,i)=>{
     const [x,y]=pt(a,R);
     const line=document.createElementNS(NS,'line');
     line.setAttribute('x1',cx);line.setAttribute('y1',cy);
     line.setAttribute('x2',x);line.setAttribute('y2',y);
-    line.setAttribute('stroke','#1E1E23');line.setAttribute('stroke-width','0.7');
+    line.setAttribute('stroke','#191C1E');line.setAttribute('stroke-width','0.7');
     svg.appendChild(line);
     const [lx,ly]=pt(a,R+22);
     const lbl=document.createElementNS(NS,'text');
     lbl.setAttribute('x',lx);lbl.setAttribute('y',ly);
-    lbl.setAttribute('fill','#8B8B92');
+    lbl.setAttribute('fill','#93979B');
     lbl.setAttribute('font-size','11');
-    lbl.setAttribute('font-family','Space Grotesk, sans-serif');
+    lbl.setAttribute('font-family','Inter, sans-serif');
+    lbl.setAttribute('font-weight','500');
     lbl.setAttribute('text-anchor', Math.abs(Math.cos(a))<0.3 ? 'middle' : (Math.cos(a)>0?'start':'end'));
     lbl.setAttribute('dominant-baseline','middle');
     lbl.textContent=DIMENSIONS[i];
     svg.appendChild(lbl);
   });
-  // data polygon
   const dataPts = angles.map((a,i)=> pt(a, R*(dimScores[DIMENSIONS[i]]/100)) );
   const poly=document.createElementNS(NS,'polygon');
   poly.setAttribute('points', dataPts.map(p=>p.join(',')).join(' '));
-  poly.setAttribute('fill','rgba(242,242,240,0.10)');
-  poly.setAttribute('stroke','#F2F2F0');
-  poly.setAttribute('stroke-width','1.6');
+  poly.setAttribute('fill','rgba(232,32,60,0.14)');
+  poly.setAttribute('stroke','#E8203C');
+  poly.setAttribute('stroke-width','1.8');
   poly.setAttribute('stroke-linejoin','round');
   svg.appendChild(poly);
-  // draw-in animation
   const perim = perimeter(dataPts);
   poly.style.strokeDasharray = perim; poly.style.strokeDashoffset = perim;
   poly.style.transition='stroke-dashoffset 1s ease'; poly.style.fillOpacity='0';
   requestAnimationFrame(()=>setTimeout(()=>{ poly.style.strokeDashoffset='0'; poly.style.transition+=' , fill-opacity .8s ease .5s'; poly.style.fillOpacity='1'; },80));
-  // dots
   dataPts.forEach(([x,y])=>{
     const c=document.createElementNS(NS,'circle');
-    c.setAttribute('cx',x);c.setAttribute('cy',y);c.setAttribute('r','3');
-    c.setAttribute('fill','#F2F2F0');
+    c.setAttribute('cx',x);c.setAttribute('cy',y);c.setAttribute('r','3.4');
+    c.setAttribute('fill','#E8203C');
     svg.appendChild(c);
   });
 }
@@ -472,7 +485,6 @@ async function sendToServer(){
     if(!r.ok) throw new Error('bad status '+r.status);
     note.textContent='✓ Jawaban terkirim ke panitia'; note.classList.add('ok');
   }catch(e){
-    // Di mode preview (tanpa backend) ini wajar gagal — hasil tetap tampil.
     note.textContent='Hasil tampil di layar. (Pengiriman email aktif setelah di-deploy ke Vercel.)';
   }
 }
@@ -484,7 +496,7 @@ $('adminToggle').addEventListener('click', ()=>{
   const body=$('adminBody');
   if(!arr.length){ body.textContent='Belum ada data di sesi ini.'; return; }
   body.innerHTML = arr.map(e=>`
-    <div style="padding:12px 0;border-bottom:1px solid var(--line-soft)">
+    <div style="padding:13px 0;border-bottom:1px solid var(--line-soft)">
       <strong>${e.nama}</strong> · ${e.departemen}<br>
       <span style="color:var(--muted);font-size:13px">${e.wa} · skor ${e.overall} (${band(e.overall)})</span>
     </div>`).join('');

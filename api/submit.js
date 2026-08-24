@@ -21,7 +21,7 @@ export default async function handler(req, res) {
   }
 
   const RESEND_API_KEY = process.env.RESEND_API_KEY;
-  const FROM_EMAIL     = process.env.FROM_EMAIL;      // mis. "Bootcamp <noreply@withmiautomation.com>"
+  const FROM_EMAIL     = process.env.FROM_EMAIL;      // mis. "WithMi <noreply@withmiautomation.com>"
   const NOTIFY_EMAIL   = process.env.NOTIFY_EMAIL;    // email kamu (tujuan notifikasi)
 
   if (!RESEND_API_KEY || !FROM_EMAIL || !NOTIFY_EMAIL) {
@@ -38,7 +38,7 @@ export default async function handler(req, res) {
 
   const html = `
     <div style="font-family:system-ui,sans-serif;max-width:520px;color:#111">
-      <h2 style="margin:0 0 4px">Pendaftaran bootcamp baru</h2>
+      <h2 style="margin:0 0 4px">Lead AI Readiness baru</h2>
       <p style="margin:0 0 16px;color:#666">${esc(nama)} — ${esc(departemen)}</p>
       <table style="border-collapse:collapse;font-size:14px;margin-bottom:16px">
         <tr><td style="padding:4px 12px 4px 0">WhatsApp</td><td><b>${esc(wa)}</b></td></tr>
@@ -63,7 +63,7 @@ export default async function handler(req, res) {
         from: FROM_EMAIL,
         to: NOTIFY_EMAIL,
         reply_to: email || undefined,
-        subject: `Pendaftaran: ${nama} (${departemen}) — skor ${overall}`,
+        subject: `AI Readiness: ${nama} (${departemen}) — skor ${overall}`,
         html,
       }),
     });
